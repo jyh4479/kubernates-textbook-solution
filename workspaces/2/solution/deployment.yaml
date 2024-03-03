@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: whomai-1
+
+spec:
+  selector:
+    matchLabels:
+      chapter2: whomai-1
+  template:
+    metadata:
+      labels:
+        chapter2: whomai-1
+    spec:
+      containers:
+        - name: web
+          image: kiamol/ch02-whoami
+
+# yaml 실핼 후 아래 실행
+# kubectl port-forward deploy/whomai-1 8080:80
