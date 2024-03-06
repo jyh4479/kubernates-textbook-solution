@@ -70,10 +70,11 @@
     TODO: 위와 같이 실했을때 왜 실행되는지 확인해보기
 
 #### LoadBalancer vs NodePort
-    
+
     NodePort는 잘 사용하지 않는데 그 이유를 정확하게 알아보기
 
 ### 실습 3.4.1
+
     kubectl delete svc numbers-api
 
     kubectl apply -f numbers-services/api-service-externalName.yaml
@@ -85,6 +86,7 @@
     kubectl exec deploy/sleep-1 -- sh -c 'nslookup numbers-api | tail -n 5' 
 
 ### 실습 3.4.3
+
     kubectl delete svc numbers-api
 
     kubectl apply -f numbers-services/api-service-headless.yaml
@@ -94,3 +96,33 @@
     kubectl get endpoints numbers-api
 
     kubectl exec deploy/sleep-1 -- sh -c 'nslookup numbers-api | grep "^[^*]"'
+
+### 실습 3.5.1
+
+    kubectl get endpoints sleep-2
+
+    kubectl delete pod -l app=sleep-2
+    
+    kubectl get endpoints sleep-2
+
+    kubectl delete deploy sleep-2
+
+    kubectl get endpoints sleep-2
+
+### 실습 3.5.2
+
+    kubectl get svc --namespace default
+    
+    kubectl get svc -n kube-system
+
+    kubectl exec deploy/sleep-1 -- sh -c 'nslookup numbers-api.default.svc.cluster.local | grep "^[^*]"'
+
+    kubectl exec deploy/sleep-1 -- sh -c 'nslookup kube-dns.kube-system.svc.cluster.local | grep "^[^*]"'
+
+### 실습 3.5.3
+
+    kubectl delete deploy --all
+
+    kubectl delete svc --all
+
+    kubectl get all
