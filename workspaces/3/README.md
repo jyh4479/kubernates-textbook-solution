@@ -68,3 +68,29 @@
     minikube등 로컬 환경에서 사용시 문제가 되는데 별도의 터미널을 열어서 minikube tunnel 명령을 사용하면 해결된다.
     
     TODO: 위와 같이 실했을때 왜 실행되는지 확인해보기
+
+#### LoadBalancer vs NodePort
+    
+    NodePort는 잘 사용하지 않는데 그 이유를 정확하게 알아보기
+
+### 실습 3.4.1
+    kubectl delete svc numbers-api
+
+    kubectl apply -f numbers-services/api-service-externalName.yaml
+
+    kubectl get svc numbers-api
+
+### 실습 3.4.2
+
+    kubectl exec deploy/sleep-1 -- sh -c 'nslookup numbers-api | tail -n 5' 
+
+### 실습 3.4.3
+    kubectl delete svc numbers-api
+
+    kubectl apply -f numbers-services/api-service-headless.yaml
+
+    kubectl get svc numbers-api
+
+    kubectl get endpoints numbers-api
+
+    kubectl exec deploy/sleep-1 -- sh -c 'nslookup numbers-api | grep "^[^*]"'
