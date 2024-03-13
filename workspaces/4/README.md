@@ -25,3 +25,49 @@
     kubectl apply -f sleep/sleep-with-configMap-env.yaml
 
     kubectl exec deploy/sleep -- sh -c 'printenv | grep "KIAMOL"'
+
+### 실습 4.2.1
+
+    kubectl create configmap sleep-config-env-file --from-env-file=sleep/ch04.env
+
+    kubectl get cm sleep-config-env-file
+
+    kubectl apply -f sleep/sleep-with-configMap-env-file.yaml
+
+    kubectl exec deploy/sleep -- sh -c 'printenv | grep "^KIAMOL"'
+
+### 실습 4.2.2
+
+    kubectl apply -f todo-list/todo-web.yaml
+
+    kubectl wait --for=condition=Ready pod -l app=todo-web
+
+    kubectl get svc todo-web -o jsonpath='http://{.status.loadBalancer.ingress[0].*:8080}'
+
+    kubectl logs -l app=todo-web
+
+### 실습 4.2.3
+    
+    kubectl apply -f todo-list/configMaps/todo-web-config-dev.yaml
+
+    kubectl apply -f todo-list/todo-web-dev.yaml
+
+### 실습 4.3.1
+
+    kubectl exec deploy/todo-web -- sh -c 'ls -l /app/app*.json'
+
+    kubectl exec deploy/todo-web -- sh -c 'ls -l /app/config/*.json'
+
+    kubectl exec deploy/todo-web -- sh -c 'echo ch04 >> /app/config/config.json'
+
+### 실습 4.3.2
+
+    kubectl logs -l app=todo-web
+
+    kubectl apply -f todo-list/configMaps/todo-web-config-dev-with-logging.yaml
+
+    sleep 120
+
+    kubectl exec deploy/todo-web -- sh -c 'ls -l /app/config/*.json'
+
+    kubectl logs -l app=todo-web
