@@ -71,3 +71,21 @@
     kubectl exec deploy/todo-web -- sh -c 'ls -l /app/config/*.json'
 
     kubectl logs -l app=todo-web
+
+### 실습 4.3.3
+
+    kubectl apply -f todo-list/todo-web-dev-broken.yaml
+
+    kubectl logs -l app=todo-web
+
+    kubectl get pods -l app=todo-web
+
+### 실습 4.3.4
+    
+    kubectl apply -f todo-list/todo-web-dev-no-logging.yaml
+
+    kubectl exec deploy/todo-web -- sh -c 'ls /app/config'
+
+    kubectl get logs -l app=todo-web
+
+    kubectl get pods -l app=todo-web
