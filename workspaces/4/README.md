@@ -47,7 +47,7 @@
     kubectl logs -l app=todo-web
 
 ### 실습 4.2.3
-    
+
     kubectl apply -f todo-list/configMaps/todo-web-config-dev.yaml
 
     kubectl apply -f todo-list/todo-web-dev.yaml
@@ -81,7 +81,7 @@
     kubectl get pods -l app=todo-web
 
 ### 실습 4.3.4
-    
+
     kubectl apply -f todo-list/todo-web-dev-no-logging.yaml
 
     kubectl exec deploy/todo-web -- sh -c 'ls /app/config'
@@ -89,3 +89,55 @@
     kubectl get logs -l app=todo-web
 
     kubectl get pods -l app=todo-web
+
+### 실습 4.4.1
+
+    kubectl create secret generic sleep-secret-literal --from-literal=secret=shh...
+
+    kubectl describe secret sleep-secret-literal
+
+    kubectl get secret sleep-secret-literal -o jsonpath='{.data.secret}'
+
+    kubectl get secret sleep-secret-literal -o jsonpath='{.data.secret}' | base64 -d
+
+### 실습 4.4.2
+
+    kubectl apply -f sleep/sleep-with-secret.yaml
+
+    kubectl exec deploy/sleep -- printenv KIAMOL_SECRET
+
+### 실습 4.4.3
+
+    kubectl apply -f todo-list/secrets/todo-db-secret-test.yaml
+
+    kubectl get secret todo-db-secret-test -o jsonpath='{.data.POSTGRES_PASSWORD}'
+
+    kubectl get secret todo-db-secret-test -o jsonpath='{.metadata.annotations}'
+
+### 실습 4.4.4
+
+    kubectl apply -f todo-list/todo-db-test.yaml
+
+    kubectl logs -l app=todo-db --tail 1
+
+    kubectl exec deploy/todo-db -- sh -c 'ls -l $(readlink -f /secrets/postgres_password)'
+
+### 실습 4.4.5
+
+    kubectl apply -f todo-list/configMaps/todo-web-config-test.yaml
+
+    kubectl apply -f todo-list/secrets/todo-web-secret-test.yaml
+
+    kubectl apply -f todo-list/todo-web-test.yaml
+
+    kubectl exec deploy/todo-web-test -- cat /app/secrets/secrets.json
+
+### 실습 4.4.6
+
+    kubectl delete -f sleep/
+
+    kubectl delete -f todo-list/
+
+    kubectl delete -f todo-list/configMaps/
+
+    kubectl delete -f todo-list/secrets/
