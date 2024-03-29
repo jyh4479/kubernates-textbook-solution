@@ -56,5 +56,14 @@
 
     kubectl exec deploy/pi-proxy -- ls -l /data/nginx/cache
 
+### 실습 5.2.4
+
+    kubectl apply -f sleep/sleep-with-hostPath.yaml
+
+    kubectl exec deploy/sleep -- ls -l /var/log
+
+    kubectl exec deploy/sleep -- ls -l /node-root/var/log
+
+    kubectl exec deploy/sleep -- whoami
 
     
